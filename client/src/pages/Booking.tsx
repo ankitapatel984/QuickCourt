@@ -10,6 +10,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { Clock, MapPin, CreditCard, CheckCircle } from "lucide-react";
 import { format } from "date-fns";
+import { toast } from "@/components/ui/sonner";
+import { bookingsApi, handleApiSuccess } from "@/services/api";
 
 // Mock data
 const venueData = {
@@ -51,18 +53,42 @@ const Booking = () => {
   const totalPrice = selectedCourtData ? selectedCourtData.pricePerHour * parseInt(duration) : 0;
 
   const handleBooking = async () => {
-    if (!selectedDate || !selectedCourt || !selectedTimeSlot) {
-      return;
-    }
+    if (!selectedDate || !selectedCourt || !selectedTimeSlot) return;
 
     setIsBooking(true);
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    // Redirect to success page or show success message
-    alert("Booking confirmed! Redirecting to your bookings...");
-    navigate("/profile");
+    try {
+      // API call to Node.js backend for booking
+      const response = await fetch('/api/bookings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+        },
+        body: JSON.stringify({
+          venueId,
+          courtId: selectedCourt,
+          date: selectedDate.toISOString().split('T')[0],
+          timeSlot: selectedTimeSlot,
+          duration: parseInt(duration),
+          totalPrice: totalPrice,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast("Booking confirmed successfully!");
+        navigate("/profile");
+      } else {
+        toast(data.message || "Booking failed. Please try again.");
+      }
+    } catch (error) {
+      console.error('Booking error:', error);
+      toast("Network error. Please try again.");
+    } finally {
+      setIsBooking(false);
+    }
   };
 
   const canBook = selectedDate && selectedCourt && selectedTimeSlot && !isBooking;
@@ -123,7 +149,7 @@ const Booking = () => {
             </Card>
 
             {/* Date Selection */}
-             <Card>
+            <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-full  bg-purple-800 text-primary-foreground flex items-center justify-center text-sm font-medium">
@@ -134,14 +160,14 @@ const Booking = () => {
               </CardHeader>
               <CardContent>
                 <Calendar
-                  mode="single" 
+                  mode="single"
                   selected={selectedDate}
                   onSelect={setSelectedDate}
                   disabled={(date) => date < new Date()}
                   className="rounded-md border pointer-events-auto"
                 />
               </CardContent>
-            </Card> 
+            </Card>
 
             {/* Time Slot Selection */}
             <Card>

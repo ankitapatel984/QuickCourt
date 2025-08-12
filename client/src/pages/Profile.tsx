@@ -8,6 +8,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User, Mail, Phone, MapPin, Calendar, Clock, Star, X } from "lucide-react";
+import { toast } from "@/components/ui/sonner";
+import { userApi, bookingsApi, handleApiSuccess } from "@/services/api";
 
 // Mock user data
 const userData = {
@@ -72,15 +74,31 @@ const Profile = () => {
     phone: userData.phone
   });
 
-  const handleSave = () => {
-    // Handle save logic here
-    console.log("Saving profile:", formData);
-    setIsEditing(false);
+  const handleSave = async () => {
+    try {
+      // API call to Node.js backend to update profile
+      const response = await userApi.updateProfile(formData);
+      const data = await handleApiSuccess(response);
+
+      toast("Profile updated successfully!");
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Update profile error:', error);
+      toast(error instanceof Error ? error.message : "Failed to update profile");
+    }
   };
 
-  const handleCancel = (bookingId: number) => {
-    // Handle booking cancellation
-    console.log("Cancelling booking:", bookingId);
+  const handleCancel = async (bookingId: number) => {
+    try {
+      // API call to Node.js backend to cancel booking
+      const response = await bookingsApi.cancel(bookingId);
+      const data = await handleApiSuccess(response);
+
+      toast("Booking cancelled successfully!");
+    } catch (error) {
+      console.error('Cancel booking error:', error);
+      toast(error instanceof Error ? error.message : "Failed to cancel booking");
+    }
   };
 
   const getStatusBadge = (status: string) => {
