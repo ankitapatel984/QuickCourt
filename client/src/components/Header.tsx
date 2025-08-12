@@ -14,7 +14,7 @@ const Header = () => {
         <Link to="/" className="flex items-center space-x-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-hero">
             {/* <MapPin className="h-5 w-5 text-white" /> */}
-            <img src="https://sdmntpreastus.oaiusercontent.com/files/00000000-8ca0-61f9-bb91-c4a87983e128/raw?se=2025-08-11T17%3A21%3A54Z&sp=r&sv=2024-08-04&sr=b&scid=bca7c5e2-ec65-5c4a-94b6-18fb05545ec1&skoid=02b7f7b5-29f8-416a-aeb6-99464748559d&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-08-11T15%3A00%3A41Z&ske=2025-08-12T15%3A00%3A41Z&sks=b&skv=2024-08-04&sig=3hKA0OPhgLMukNsOJmkIqt1ke/Xu/iBjgNXFmRFFfw8%3D"></img>
+            <img src="https://sdmntpreastus.oaiusercontent.com/files/00000000-8ca0-61f9-bb91-c4a87983e128/raw?se=2025-08-12T03%3A56%3A13Z&sp=r&sv=2024-08-04&sr=b&scid=93f7eab1-b7c6-5ac8-b795-c3c9f630a037&skoid=f28c0102-4d9d-4950-baf0-4a8e5f6cf9d4&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-08-12T00%3A57%3A48Z&ske=2025-08-13T00%3A57%3A48Z&sks=b&skv=2024-08-04&sig=QlH6lqoEF0vUba4fDyh3sGdqnOiqk4jNcTX%2BB244xiQ%3D"></img>
           </div>
           <span className="text-3xl text-purple-800 font-bold text-foreground">QuickCourt</span>
         </Link>

@@ -1,11 +1,15 @@
 import { useState } from "react";
+
 import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+//import AddCourt from "@/components/AddCourt";
+
 import { 
-  BarChart, 
+  BarChart as Barcharticon, 
   Calendar, 
   TrendingUp, 
   Users, 
@@ -91,7 +95,16 @@ const Dashboard = () => {
       default:
         return <Badge variant="outline">{status}</Badge>;
     }
+
+
+
   };
+const bookingData = [
+  { date: "2025-08-01", bookings: 12 },
+  { date: "2025-08-02", bookings: 18 },
+  { date: "2025-08-03", bookings: 9 },
+  { date: "2025-08-04", bookings: 15 },
+];
 
   return (
     <div className="min-h-screen bg-background">
@@ -174,14 +187,19 @@ const Dashboard = () => {
                   <CardTitle>Booking Trends</CardTitle>
                   <CardDescription>Daily bookings over the last 30 days</CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <div className="h-[200px] flex items-center justify-center bg-muted/30 rounded-lg">
-                    <div className="text-center">
-                      <BarChart className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
-                      <p className="text-sm text-muted-foreground">Chart will be implemented</p>
-                    </div>
-                  </div>
-                </CardContent>
+               <CardContent>
+    <div className="h-[300px]">
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={bookingData}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="date" />
+          <YAxis />
+          <Tooltip />
+          <Bar dataKey="bookings" fill="#7e22ce" radius={[6, 6, 0, 0]} />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  </CardContent>
               </Card>
 
               <Card>
